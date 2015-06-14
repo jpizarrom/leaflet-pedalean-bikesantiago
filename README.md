@@ -39,3 +39,5 @@ Lists of demos:
 * http://app.pedalean.com/
 
 ## Dependencies
+
+## License
