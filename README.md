@@ -33,6 +33,8 @@ Import the main component and start creating your map:
 ```
 ## Status
 
+leaflet-pedalean-bikesantiago is under development
+
 Lists of demos: 
 * http://app.pedalean.com/
 
