@@ -1,0 +1,97 @@
+<!--
+@license
+Copyright (c) 2015 Juan Pizarro. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+-->
+
+<link rel="import" href="../../bower_components/leaflet-map/leaflet-core.html">
+
+<dom-module id="leaflet-pedalean-bikesantiago">
+  <style>
+    :host {
+      display: block;
+    }
+  </style>
+  <template>
+  </template>
+</dom-module>
+<script>
+  (function () {
+    Polymer({
+      is: 'leaflet-pedalean-bikesantiago',
+      // behaviors: [leafletMap.LeafletILayer],
+      properties: {
+        url: {
+          type: String,
+          observer: '_containerChanged'
+        },
+        apikey: {
+          type: String,
+          observer: '_containerChanged'
+        },
+        program: {
+          type: Number,
+          value: 68,
+          notify: true
+        },
+        container: {
+          type: Object,
+          observer: '_containerChanged'
+        },
+        data: {
+          type: Object,
+          observer: '_dataChanged'
+        }
+      },
+      _containerChanged: function() {
+        if (this.container && this.apikey && this.url) {
+          this._bikesantiago(this._bikesantiagoResults, this);
+        }
+      },
+      _dataChanged: function() {
+        L.Icon.Default.imagePath = 'bower_components/leaflet/dist/images';
+        if (this.container && this.data) {
+          for (var i = 0; i < this.data.length; i++) {
+            var data = this.data[i];
+            L.marker([data.Location.Latitude, data.Location.Longitude]).addTo(this.container)
+            .bindPopup(
+              data.Name+"<br>"+
+              'Address :'+data.Address.Street+"<br>"+
+              'BikesAvailable :'+data.BikesAvailable+"<br>"+
+              'DocksAvailable :'+data.DocksAvailable+"<br>"+
+              'TotalDocks :'+data.TotalDocks+"<br>"+
+              'HoursOfOperation :'+data.HoursOfOperation+"<br>"+
+              ''
+              );
+          }
+        }
+      },
+      _bikesantiago: function(cb, context) {
+        var url = this.url+'?program='+context.program+'&access_token='+context.apikey;
+        var request = new XMLHttpRequest();
+        request.open('GET', url);
+        request.onreadystatechange = function() {
+          var response = {};
+            if (request.readyState === 4 && request.status === 200) {
+              try {
+                // if(window.JSON) {
+                      response = JSON.parse(request.responseText);
+                // } else {
+                //   response = eval("("+ request.responseText + ")");
+                // }
+              } catch(err) {
+                console.info(err);
+                response = {};
+              }
+                cb.call(context, response);
+            }
+        };
+        request.send();
+
+      },
+      _bikesantiagoResults: function(results) {
+        this.data = results;
+      }
+    });
+  })();
+</script>
