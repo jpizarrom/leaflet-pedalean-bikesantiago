@@ -4,17 +4,21 @@ Copyright (c) 2015 Juan Pizarro. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
 -->
 
-<link rel="import" href="../../bower_components/leaflet-map/leaflet-core.html">
+<!--
+`leaflet-pedalean-bikesantiago` is a ..
 
-<dom-module id="leaflet-pedalean-bikesantiago">
-  <style>
-    :host {
-      display: block;
-    }
-  </style>
-  <template>
-  </template>
-</dom-module>
+Example:
+
+    <leaflet-map latitude="-33.4377968" longitude="-70.6504451" zoom="13">
+      <leaflet-pedalean-bikesantiago url="http://..." apikey=""></leaflet-pedalean-bikesantiago>
+    </leaflet-map>
+
+
+@demo demo/index.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+
 <script>
   (function () {
     Polymer({

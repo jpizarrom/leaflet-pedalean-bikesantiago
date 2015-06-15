@@ -1,5 +1,7 @@
 # leaflet-pedalean-bikesantiago
 
+An element providing a starting point for your own reusable Polymer elements.
+
 ## Quickstart Guide
 
 Install this web component using [Bower](http://bower.io):
@@ -40,29 +42,52 @@ Lists of demos:
 
 ## Dependencies
 
-## License
+Element dependencies are managed via [Bower](http://bower.io/). You can
+install that via:
 
-Copyright (c) 2015
-Juan Pizarro
+    npm install -g bower
 
-All rights reserved.
+Then, go ahead and download the element's dependencies:
 
-Redistribution and use in source and binary forms, with or without modification, are
-permitted provided that the following conditions are met:
+    bower install
 
-   1. Redistributions of source code must retain the above copyright notice, this list of
-      conditions and the following disclaimer.
 
-   2. Redistributions in binary form must reproduce the above copyright notice, this list
-      of conditions and the following disclaimer in the documentation and/or other materials
-      provided with the distribution.
+## Playing With Your Element
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
-EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
-TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+If you wish to work on your element in isolation, we recommend that you use
+[Polyserve](https://github.com/PolymerLabs/polyserve) to keep your element's
+bower dependencies in line. You can install it via:
+
+    npm install -g polyserve
+
+And you can run it via:
+
+    polyserve
+
+Once running, you can preview your element at
+`http://localhost:8080/components/leaflet-pedalean-bikesantiago/`, where `leaflet-pedalean-bikesantiago` is the name of the directory containing it.
+
+
+## Testing Your Element
+
+Simply navigate to the `/test` directory of your element to run its tests. If
+you are using Polyserve: `http://localhost:8080/components/leaflet-pedalean-bikesantiago/test/`
+
+### web-component-tester
+
+The tests are compatible with [web-component-tester](https://github.com/Polymer/web-component-tester).
+Install it via:
+
+    npm install -g web-component-tester
+
+Then, you can run your tests on _all_ of your local browsers via:
+
+    wct
+
+#### WCT Tips
+
+`wct -l chrome` will only run tests in chrome.
+
+`wct -p` will keep the browsers alive after test runs (refresh to re-run).
+
+`wct test/some-file.html` will test only the files you specify.
