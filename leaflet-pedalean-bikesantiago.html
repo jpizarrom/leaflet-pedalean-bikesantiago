@@ -45,29 +45,48 @@ Example:
         data: {
           type: Object,
           observer: '_dataChanged'
+        },
+        icon: {
+          type: Object,
+          observer: '_iconChanged'
         }
       },
       _containerChanged: function() {
         if (this.container && this.apikey && this.url) {
           this._bikesantiago(this._bikesantiagoResults, this);
         }
+        if (this.container) {
+          var control = L.control.layers();
+          this.control = control;
+          this.control.addTo(this.container);
+
+          this.markers = L.layerGroup();
+          this.markers.addTo(this.container);
+
+          this.control.addOverlay(this.markers, "BikeSantiago");
+        }
       },
       _dataChanged: function() {
-        L.Icon.Default.imagePath = 'images';
+
+        if (this.markers){
+          this.markers.clearLayers();
+        }
+
         if (this.container && this.data) {
           for (var i = 0; i < this.data.length; i++) {
             var data = this.data[i];
-            L.marker([data.Location.Latitude, data.Location.Longitude]).addTo(this.container)
-            .bindPopup(
-              data.Name+"<br>"+
-              'Address :'+data.Address.Street+"<br>"+
-              'BikesAvailable :'+data.BikesAvailable+"<br>"+
-              'DocksAvailable :'+data.DocksAvailable+"<br>"+
-              'TotalDocks :'+data.TotalDocks+"<br>"+
-              'HoursOfOperation :'+data.HoursOfOperation+"<br>"+
-              ''
+            var marker = L.marker([data.Location.Latitude, data.Location.Longitude]).addTo(this.markers)
+              .bindPopup(
+                data.Name+"<br>"+
+                'Address :'+data.Address.Street+"<br>"+
+                'BikesAvailable :'+data.BikesAvailable+"<br>"+
+                'DocksAvailable :'+data.DocksAvailable+"<br>"+
+                'TotalDocks :'+data.TotalDocks+"<br>"+
+                'HoursOfOperation :'+data.HoursOfOperation+"<br>"+
+                ''
               );
           }
+          this._iconChanged();
         }
       },
       _bikesantiago: function(cb, context) {
@@ -95,6 +114,50 @@ Example:
       },
       _bikesantiagoResults: function(results) {
         this.data = results;
+      },
+      _iconChanged: function() {
+        // icon support
+        var iconOption;
+        if (this.icon) {
+          console.log('icon');
+          if (typeof this.icon == "string") {
+            var iconElement = document.getElementById(this.icon);
+            if (iconElement != null) {
+              if (iconElement.getIcon) {
+                iconOption = iconElement.getIcon();
+              }
+            } else {
+              try {
+                iconOption = L.icon(JSON.parse(this.icon));
+              } catch (e) {
+                iconOption = new L.Icon.Default();
+              }
+            }
+          }
+          if (typeof this.icon == "object") {
+            if (this.icon.options) {
+              iconOption = this.icon;
+            } else {
+              iconOption = L.icon(this.icon);
+            }
+          }
+        }
+        if (!iconOption) {
+          iconOption = new L.Icon.Default();
+        }
+        if (this.markers) {
+          this.markers.eachLayer(function (layer) {
+            layer.setIcon(iconOption);
+          });
+        }
+      },
+      detached: function() {
+        if (this.container && this.control) {
+          this.container.removeLayer(this.control);
+        }
+        if (this.container && this.markers) {
+          this.container.removeLayer(this.markers);
+        }
       }
     });
   })();
